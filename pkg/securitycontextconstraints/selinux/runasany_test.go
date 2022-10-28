@@ -3,7 +3,7 @@ package selinux
 import (
 	"testing"
 
-	securityv1 "github.com/openshift/api/security/v1"
+	securityv1 "github.com/uccps-samples/api/security/v1"
 	corev1 "k8s.io/api/core/v1"
 )
 

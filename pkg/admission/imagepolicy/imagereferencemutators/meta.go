@@ -8,7 +8,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	kapi "k8s.io/kubernetes/pkg/apis/core"
 
-	imagepolicyv1 "github.com/openshift/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/v1"
+	imagepolicyv1 "github.com/uccps-samples/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/v1"
 )
 
 type KubeImageMutators struct{}

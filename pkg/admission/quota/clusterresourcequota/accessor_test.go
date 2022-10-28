@@ -16,11 +16,11 @@ import (
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
 
-	quotav1 "github.com/openshift/api/quota/v1"
-	fakequotaclient "github.com/openshift/client-go/quota/clientset/versioned/fake"
-	quotalister "github.com/openshift/client-go/quota/listers/quota/v1"
-	"github.com/openshift/library-go/pkg/quota/clusterquotamapping"
-	quotautil "github.com/openshift/library-go/pkg/quota/quotautil"
+	quotav1 "github.com/uccps-samples/api/quota/v1"
+	fakequotaclient "github.com/uccps-samples/client-go/quota/clientset/versioned/fake"
+	quotalister "github.com/uccps-samples/client-go/quota/listers/quota/v1"
+	"github.com/uccps-samples/library-go/pkg/quota/clusterquotamapping"
+	quotautil "github.com/uccps-samples/library-go/pkg/quota/quotautil"
 )
 
 func TestUpdateQuota(t *testing.T) {

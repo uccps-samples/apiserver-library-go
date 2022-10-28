@@ -1,7 +1,7 @@
 package sort
 
 import (
-	securityv1 "github.com/openshift/api/security/v1"
+	securityv1 "github.com/uccps-samples/api/security/v1"
 )
 
 // ByPriority is a helper to sort SCCs based on priority.  If priorities are equal

@@ -1,16 +1,16 @@
 package rules
 
 import (
-	"github.com/openshift/library-go/pkg/image/imageutil"
+	"github.com/uccps-samples/library-go/pkg/image/imageutil"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/klog/v2"
 
-	"github.com/openshift/api/image/docker10"
-	imagev1 "github.com/openshift/api/image/v1"
-	imagepolicy "github.com/openshift/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/v1"
-	"github.com/openshift/library-go/pkg/image/reference"
+	"github.com/uccps-samples/api/image/docker10"
+	imagev1 "github.com/uccps-samples/api/image/v1"
+	imagepolicy "github.com/uccps-samples/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/v1"
+	"github.com/uccps-samples/library-go/pkg/image/reference"
 )
 
 type ImagePolicyAttributes struct {
@@ -107,7 +107,7 @@ func matchImageConditionValues(rule *imagepolicy.ImageCondition, integrated Regi
 	if image == nil {
 		if rule.SkipOnResolutionFailure {
 			klog.V(5).Infof("rule does not match because image did not resolve and SkipOnResolutionFailure is true")
-			// Likely we will never get here (see: https://github.com/openshift/origin/blob/4f709b48f8e52e8c6012bd8b91945f022a437a6a/pkg/image/admission/imagepolicy/rules/accept.go#L99-L103)
+			// Likely we will never get here (see: https://github.com/uccps-samples/origin/blob/4f709b48f8e52e8c6012bd8b91945f022a437a6a/pkg/image/admission/imagepolicy/rules/accept.go#L99-L103)
 			// but if we do, treat the condition as not matching since we are supposed to skip this rule on resolution failure.
 			return false
 		}

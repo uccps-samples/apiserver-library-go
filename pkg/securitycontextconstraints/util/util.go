@@ -6,7 +6,7 @@ import (
 	"k8s.io/apimachinery/pkg/util/sets"
 	api "k8s.io/kubernetes/pkg/apis/core"
 
-	securityv1 "github.com/openshift/api/security/v1"
+	securityv1 "github.com/uccps-samples/api/security/v1"
 )
 
 func GetAllFSTypesExcept(exceptions ...string) sets.String {

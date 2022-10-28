@@ -5,7 +5,7 @@ import (
 
 	api "k8s.io/kubernetes/pkg/apis/core"
 
-	securityv1 "github.com/openshift/api/security/v1"
+	securityv1 "github.com/uccps-samples/api/security/v1"
 )
 
 func TestMustRunAsOptions(t *testing.T) {

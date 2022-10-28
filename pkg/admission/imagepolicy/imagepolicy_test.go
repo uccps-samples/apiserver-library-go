@@ -26,14 +26,14 @@ import (
 	"k8s.io/kubernetes/pkg/apis/apps"
 	kapi "k8s.io/kubernetes/pkg/apis/core"
 
-	"github.com/openshift/api/image"
-	imagev1 "github.com/openshift/api/image/v1"
-	imagepolicy "github.com/openshift/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/v1"
-	"github.com/openshift/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/validation"
-	"github.com/openshift/apiserver-library-go/pkg/admission/imagepolicy/imagereferencemutators"
-	"github.com/openshift/apiserver-library-go/pkg/admission/imagepolicy/rules"
-	imagev1fakeclient "github.com/openshift/client-go/image/clientset/versioned/fake"
-	"github.com/openshift/library-go/pkg/image/reference"
+	"github.com/uccps-samples/api/image"
+	imagev1 "github.com/uccps-samples/api/image/v1"
+	imagepolicy "github.com/uccps-samples/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/v1"
+	"github.com/uccps-samples/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/validation"
+	"github.com/uccps-samples/apiserver-library-go/pkg/admission/imagepolicy/imagereferencemutators"
+	"github.com/uccps-samples/apiserver-library-go/pkg/admission/imagepolicy/rules"
+	imagev1fakeclient "github.com/uccps-samples/client-go/image/clientset/versioned/fake"
+	"github.com/uccps-samples/library-go/pkg/image/reference"
 )
 
 const (
@@ -42,11 +42,11 @@ const (
 )
 
 var (
-	buildGroupVersionResource = schema.GroupVersionResource{Group: "build.openshift.io", Version: "v1", Resource: "builds"}
-	buildGroupVersionKind     = schema.GroupVersionKind{Group: "build.openshift.io", Version: "v1", Kind: "Build"}
+	buildGroupVersionResource = schema.GroupVersionResource{Group: "build.uccp.io", Version: "v1", Resource: "builds"}
+	buildGroupVersionKind     = schema.GroupVersionKind{Group: "build.uccp.io", Version: "v1", Kind: "Build"}
 
-	buildConfigGroupVersionResource = schema.GroupVersionResource{Group: "build.openshift.io", Version: "v1", Resource: "buildconfigs"}
-	buildConfigGroupVersionKind     = schema.GroupVersionKind{Group: "build.openshift.io", Version: "v1", Kind: "BuildConfig"}
+	buildConfigGroupVersionResource = schema.GroupVersionResource{Group: "build.uccp.io", Version: "v1", Resource: "buildconfigs"}
+	buildConfigGroupVersionKind     = schema.GroupVersionKind{Group: "build.uccp.io", Version: "v1", Kind: "BuildConfig"}
 )
 
 type resolveFunc func(ref *kapi.ObjectReference, defaultNamespace string, forceLocalResolve bool) (*rules.ImagePolicyAttributes, error)
@@ -97,7 +97,7 @@ func TestDefaultPolicy(t *testing.T) {
 		ObjectMeta: metav1.ObjectMeta{
 			Name: badSHA,
 			Annotations: map[string]string{
-				"images.openshift.io/deny-execution": "true",
+				"images.uccp.io/deny-execution": "true",
 			},
 		},
 		DockerImageReference: "integrated.registry/badns/badimage:bad",
@@ -262,7 +262,7 @@ func TestDefaultPolicy(t *testing.T) {
 	}
 
 	// should hit the cache on the previously good image and continue to allow it (the copy in cache was previously safe)
-	goodImage.Annotations = map[string]string{"images.openshift.io/deny-execution": "true"}
+	goodImage.Annotations = map[string]string{"images.uccp.io/deny-execution": "true"}
 	attrs = admission.NewAttributesRecord(
 		&kapi.Pod{Spec: kapi.PodSpec{Containers: []kapi.Container{{Image: "index.docker.io/mysql@" + goodSHA}}}},
 		nil, schema.GroupVersionKind{Version: "v1", Kind: "Pod"},
@@ -492,7 +492,7 @@ func TestAdmissionResolveImages(t *testing.T) {
 	}
 
 	defaultPolicyConfig := &imagepolicy.ImagePolicyConfig{}
-	configContent, err := ioutil.ReadAll(bytes.NewBufferString(`{"kind":"ImagePolicyConfig","apiVersion":"image.openshift.io/v1"}`))
+	configContent, err := ioutil.ReadAll(bytes.NewBufferString(`{"kind":"ImagePolicyConfig","apiVersion":"image.uccp.io/v1"}`))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -736,7 +736,7 @@ func TestAdmissionResolveImages(t *testing.T) {
 			client: (func() *imagev1fakeclient.Clientset {
 				fake := &imagev1fakeclient.Clientset{}
 				fake.AddReactor("get", "imagestreamtags", func(action clientgotesting.Action) (handled bool, ret runtime.Object, err error) {
-					return true, nil, kerrors.NewNotFound(schema.GroupResource{Group: "image.openshift.io", Resource: "imagestreamtags"}, "test:other")
+					return true, nil, kerrors.NewNotFound(schema.GroupResource{Group: "image.uccp.io", Resource: "imagestreamtags"}, "test:other")
 				})
 				fake.AddReactor("get", "imagestreams", func(action clientgotesting.Action) (handled bool, ret runtime.Object, err error) {
 					return true, &imagev1.ImageStream{
@@ -880,7 +880,7 @@ func TestAdmissionResolveImages(t *testing.T) {
 	}
 	for i, test := range testCases {
 		t.Run(test.name, func(t *testing.T) {
-			onResources := []metav1.GroupResource{{Group: "build.openshift.io", Resource: "builds"}, {Resource: "pods"}}
+			onResources := []metav1.GroupResource{{Group: "build.uccp.io", Resource: "builds"}, {Resource: "pods"}}
 			config := test.config
 			if config == nil {
 				// old style config
@@ -1045,10 +1045,10 @@ func TestResolutionConfig(t *testing.T) {
 			config: &imagepolicy.ImagePolicyConfig{
 				ResolveImages: imagepolicy.DoNotAttempt,
 				ResolutionRules: []imagepolicy.ImageResolutionPolicyRule{
-					{LocalNames: true, TargetResource: metav1.GroupResource{Group: "build.openshift.io", Resource: "builds"}},
+					{LocalNames: true, TargetResource: metav1.GroupResource{Group: "build.uccp.io", Resource: "builds"}},
 				},
 			},
-			resource: metav1.GroupResource{Group: "build.openshift.io", Resource: "builds"},
+			resource: metav1.GroupResource{Group: "build.uccp.io", Resource: "builds"},
 			update:   true,
 			resolve:  true,
 			rewrite:  false,

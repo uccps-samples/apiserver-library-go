@@ -8,8 +8,8 @@ import (
 	"k8s.io/apimachinery/pkg/util/validation/field"
 	coreapi "k8s.io/kubernetes/pkg/apis/core"
 
-	securityv1 "github.com/openshift/api/security/v1"
-	"github.com/openshift/apiserver-library-go/pkg/securitycontextconstraints/util"
+	securityv1 "github.com/uccps-samples/api/security/v1"
+	"github.com/uccps-samples/apiserver-library-go/pkg/securitycontextconstraints/util"
 )
 
 type mustRunAs struct {

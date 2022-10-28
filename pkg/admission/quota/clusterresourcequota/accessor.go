@@ -15,11 +15,11 @@ import (
 	etcd "k8s.io/apiserver/pkg/storage/etcd3"
 	corev1listers "k8s.io/client-go/listers/core/v1"
 
-	quotav1 "github.com/openshift/api/quota/v1"
-	quotatypedclient "github.com/openshift/client-go/quota/clientset/versioned/typed/quota/v1"
-	quotalister "github.com/openshift/client-go/quota/listers/quota/v1"
-	"github.com/openshift/library-go/pkg/quota/clusterquotamapping"
-	quotautil "github.com/openshift/library-go/pkg/quota/quotautil"
+	quotav1 "github.com/uccps-samples/api/quota/v1"
+	quotatypedclient "github.com/uccps-samples/client-go/quota/clientset/versioned/typed/quota/v1"
+	quotalister "github.com/uccps-samples/client-go/quota/listers/quota/v1"
+	"github.com/uccps-samples/library-go/pkg/quota/clusterquotamapping"
+	quotautil "github.com/uccps-samples/library-go/pkg/quota/quotautil"
 )
 
 type clusterQuotaAccessor struct {

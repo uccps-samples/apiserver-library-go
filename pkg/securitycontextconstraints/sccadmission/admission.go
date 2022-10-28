@@ -27,15 +27,15 @@ import (
 	kapihelper "k8s.io/kubernetes/pkg/apis/core/helper"
 	rbacregistry "k8s.io/kubernetes/pkg/registry/rbac"
 
-	securityv1 "github.com/openshift/api/security/v1"
-	securityv1informer "github.com/openshift/client-go/security/informers/externalversions/security/v1"
-	securityv1listers "github.com/openshift/client-go/security/listers/security/v1"
+	securityv1 "github.com/uccps-samples/api/security/v1"
+	securityv1informer "github.com/uccps-samples/client-go/security/informers/externalversions/security/v1"
+	securityv1listers "github.com/uccps-samples/client-go/security/listers/security/v1"
 
-	"github.com/openshift/apiserver-library-go/pkg/securitycontextconstraints/sccmatching"
-	sccsort "github.com/openshift/apiserver-library-go/pkg/securitycontextconstraints/util/sort"
+	"github.com/uccps-samples/apiserver-library-go/pkg/securitycontextconstraints/sccmatching"
+	sccsort "github.com/uccps-samples/apiserver-library-go/pkg/securitycontextconstraints/util/sort"
 )
 
-const PluginName = "security.openshift.io/SecurityContextConstraint"
+const PluginName = "security.uccp.io/SecurityContextConstraint"
 
 func Register(plugins *admission.Plugins) {
 	plugins.Register(PluginName,
@@ -135,7 +135,7 @@ func (c *constraint) Validate(ctx context.Context, a admission.Attributes, _ adm
 }
 
 // these are the SCCs created by the cluster-kube-apiserver-operator.
-// see the list in https://github.com/openshift/cluster-kube-apiserver-operator/blob/3b0218cf9778cbcf2650ad5aa4e01d7b40a2d05e/bindata/bootkube/scc-manifests/0000_20_kube-apiserver-operator_00_scc-restricted.yaml
+// see the list in https://github.com/uccps-samples/cluster-kube-apiserver-operator/blob/3b0218cf9778cbcf2650ad5aa4e01d7b40a2d05e/bindata/bootkube/scc-manifests/0000_20_kube-apiserver-operator_00_scc-restricted.yaml
 // if these are not present, the lister isn't really finished listing.
 var standardSCCNames = sets.NewString(
 	"anyuid",
@@ -162,7 +162,7 @@ func requireStandardSCCs(sccs []*securityv1.SecurityContextConstraints, err erro
 		return nil
 	}
 
-	return fmt.Errorf("securitycontextconstraints.security.openshift.io cache is missing %v", strings.Join(missingSCCs.List(), ", "))
+	return fmt.Errorf("securitycontextconstraints.security.uccp.io cache is missing %v", strings.Join(missingSCCs.List(), ", "))
 }
 
 func (c *constraint) computeSecurityContext(ctx context.Context, a admission.Attributes, pod *coreapi.Pod, specMutationAllowed bool, validatedSCCHint string) (*coreapi.Pod, string, field.ErrorList, error) {
@@ -173,7 +173,7 @@ func (c *constraint) computeSecurityContext(ctx context.Context, a admission.Att
 		return c.sccSynced(), nil
 	})
 	if err != nil {
-		return nil, "", nil, admission.NewForbidden(a, fmt.Errorf("securitycontextconstraints.security.openshift.io cache is not synchronized"))
+		return nil, "", nil, admission.NewForbidden(a, fmt.Errorf("securitycontextconstraints.security.uccp.io cache is not synchronized"))
 	}
 
 	// wait a few seconds until the synchronized list returns all the required SCCs created by the kas-o.
@@ -191,7 +191,7 @@ func (c *constraint) computeSecurityContext(ctx context.Context, a admission.Att
 		if requiredSCCErr != nil {
 			return nil, "", nil, admission.NewForbidden(a, requiredSCCErr)
 		}
-		return nil, "", nil, admission.NewForbidden(a, fmt.Errorf("securitycontextconstraints.security.openshift.io required check failed oddly"))
+		return nil, "", nil, admission.NewForbidden(a, fmt.Errorf("securitycontextconstraints.security.uccp.io required check failed oddly"))
 	}
 
 	constraints, err := sccmatching.NewDefaultSCCMatcher(c.sccLister, nil).FindApplicableSCCs(ctx, a.GetNamespace())
@@ -326,9 +326,9 @@ loop:
 			}
 		}
 
-		a.AddAnnotation("securityserviceconstraints.admission.openshift.io/denied", strings.Join(denied, ","))
+		a.AddAnnotation("securityserviceconstraints.admission.uccp.io/denied", strings.Join(denied, ","))
 		for sccName, reason := range failures {
-			a.AddAnnotation(fmt.Sprintf("securitycontextconstraints.admission.openshift.io/too-restrictive-%s", sccName), reason)
+			a.AddAnnotation(fmt.Sprintf("securitycontextconstraints.admission.uccp.io/too-restrictive-%s", sccName), reason)
 		}
 
 		if allowingProvider != nil && nextNotChosenProvider != nil {
@@ -341,26 +341,26 @@ loop:
 				} else {
 					reason = fmt.Sprintf("%q is most restrictive, not denied, and chosen over %q because %q %s", chosen.Name, next.Name, chosen.Name, reason)
 				}
-				a.AddAnnotation("securitycontextconstraints.admission.openshift.io/reason", reason)
+				a.AddAnnotation("securitycontextconstraints.admission.uccp.io/reason", reason)
 			}
 		} else if allowingProvider != nil {
-			a.AddAnnotation("securitycontextconstraints.admission.openshift.io/reason", fmt.Sprintf("%q is the only one not too restrictive and not denied", allowingProvider.GetSCCName()))
+			a.AddAnnotation("securitycontextconstraints.admission.uccp.io/reason", fmt.Sprintf("%q is the only one not too restrictive and not denied", allowingProvider.GetSCCName()))
 		} else if len(failures) == 0 {
-			a.AddAnnotation("securitycontextconstraints.admission.openshift.io/reason", "all denied")
+			a.AddAnnotation("securitycontextconstraints.admission.uccp.io/reason", "all denied")
 		} else {
-			a.AddAnnotation("securitycontextconstraints.admission.openshift.io/reason", "all too restrictive or denied")
+			a.AddAnnotation("securitycontextconstraints.admission.uccp.io/reason", "all too restrictive or denied")
 		}
 	} else if len(validatedSCCHint) != 0 && (allowingProvider == nil || allowingProvider.GetSCCName() != validatedSCCHint) {
 		if reason, ok := failures[validatedSCCHint]; ok {
-			a.AddAnnotation(fmt.Sprintf("securitycontextconstraints.admission.openshift.io/too-restrictive-%s", validatedSCCHint), reason)
+			a.AddAnnotation(fmt.Sprintf("securitycontextconstraints.admission.uccp.io/too-restrictive-%s", validatedSCCHint), reason)
 		} else {
-			a.AddAnnotation("securitycontextconstraints.admission.openshift.io/denied-validation", fmt.Sprintf("originally chosen %q got denied in final validation after mutating admission", validatedSCCHint))
+			a.AddAnnotation("securitycontextconstraints.admission.uccp.io/denied-validation", fmt.Sprintf("originally chosen %q got denied in final validation after mutating admission", validatedSCCHint))
 		}
 
 		if allowingProvider != nil {
-			a.AddAnnotation("securitycontextconstraints.admission.openshift.io/reason-validation", fmt.Sprintf("originally chosen %q did not pass final validation after mutating admission, but %q did instead", validatedSCCHint, allowingProvider.GetSCCName()))
+			a.AddAnnotation("securitycontextconstraints.admission.uccp.io/reason-validation", fmt.Sprintf("originally chosen %q did not pass final validation after mutating admission, but %q did instead", validatedSCCHint, allowingProvider.GetSCCName()))
 		} else {
-			a.AddAnnotation("securitycontextconstraints.admission.openshift.io/denied-validation", fmt.Sprintf("originally chosen %q got denied in final validation after mutating admission, and no other matched", validatedSCCHint))
+			a.AddAnnotation("securitycontextconstraints.admission.uccp.io/denied-validation", fmt.Sprintf("originally chosen %q got denied in final validation after mutating admission, and no other matched", validatedSCCHint))
 		}
 	}
 
@@ -370,7 +370,7 @@ loop:
 
 	if !specMutationAllowed {
 		// the finally chosen SCC. Note that we are not allowed to set an annotation multiple times, hence only for !specMutationAllowed
-		a.AddAnnotation("securitycontextconstraints.admission.openshift.io/chosen", allowingProvider.GetSCCName())
+		a.AddAnnotation("securitycontextconstraints.admission.uccp.io/chosen", allowingProvider.GetSCCName())
 	}
 
 	return allowedPod, allowingProvider.GetSCCName(), validationErrs, nil

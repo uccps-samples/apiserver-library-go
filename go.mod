@@ -1,14 +1,14 @@
-module github.com/openshift/apiserver-library-go
+module github.com/uccps-samples/apiserver-library-go
 
 go 1.16
 
 require (
 	github.com/hashicorp/golang-lru v0.5.1
-	github.com/openshift/api v0.0.0-20211209135129-c58d9f695577
-	github.com/openshift/build-machinery-go v0.0.0-20210806203541-4ea9b6da3a37
-	github.com/openshift/client-go v0.0.0-20211209144617-7385dd6338e3
-	github.com/openshift/library-go v0.0.0-20211209153216-ed9bc958bd8a
 	github.com/stretchr/testify v1.7.0
+	github.com/uccps-samples/api v0.0.0-20221025033333-c0b1087c9984
+	github.com/uccps-samples/build-machinery-go v0.0.0-20221024073655-3930cec85ae1
+	github.com/uccps-samples/client-go v0.0.0-20221024080935-a79f96014e29
+	github.com/uccps-samples/library-go v0.0.0-20221025021912-5a8f5fc3479f
 	k8s.io/api v0.23.0
 	k8s.io/apimachinery v0.23.0
 	k8s.io/apiserver v0.23.0

@@ -1,5 +1,5 @@
 kind: ImagePolicyConfig
-apiVersion: image.openshift.io/v1
+apiVersion: image.uccp.io/v1
 # To require that all images running on the platform be imported first, you may uncomment the
 # following rule. Any image that refers to a registry outside of OpenShift will be rejected unless it
 # unless it points directly to an image digest (myregistry.com/myrepo/image@sha256:ea83bcf...) and that
@@ -7,14 +7,14 @@ apiVersion: image.openshift.io/v1
 #resolveImages: Required
 executionRules:
 - name: execution-denied
-  # Reject all images that have the annotation images.openshift.io/deny-execution set to true.
+  # Reject all images that have the annotation images.uccp.io/deny-execution set to true.
   # This annotation may be set by infrastructure that wishes to flag particular images as dangerous
   onResources:
   - resource: pods
   - resource: builds
-    group: build.openshift.io
+    group: build.uccp.io
   reject: true
   matchImageAnnotations:
-  - key: images.openshift.io/deny-execution
+  - key: images.uccp.io/deny-execution
     value: "true"
   skipOnResolutionFailure: true

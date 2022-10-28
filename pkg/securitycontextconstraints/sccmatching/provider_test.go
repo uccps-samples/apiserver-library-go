@@ -8,8 +8,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	securityv1 "github.com/openshift/api/security/v1"
-	sccutil "github.com/openshift/apiserver-library-go/pkg/securitycontextconstraints/util"
+	securityv1 "github.com/uccps-samples/api/security/v1"
+	sccutil "github.com/uccps-samples/apiserver-library-go/pkg/securitycontextconstraints/util"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/diff"
@@ -1073,17 +1073,17 @@ func TestValidateProjectedVolume(t *testing.T) {
 			desc:           "deny if the kube-root-ca has wrong paths",
 			allowedFSTypes: []securityv1.FSType{securityv1.FSTypeSecret},
 			projectedVolumeSource: newProjectedVolumeCreator().FullValid().
-				WithKubeRootCA("openshift-service-ca.crt", api.KeyToPath{
+				WithKubeRootCA("uccp-service-ca.crt", api.KeyToPath{
 					Key:  "allow-all.crt",
 					Path: "ca.crt",
 				}).ToVolumeSource(),
 			wantAllow: false,
 		},
 		{
-			desc:           "deny if the openshift-ca has wrong paths",
+			desc:           "deny if the uccp-ca has wrong paths",
 			allowedFSTypes: []securityv1.FSType{securityv1.FSTypeSecret},
 			projectedVolumeSource: newProjectedVolumeCreator().FullValid().
-				WithOpenShiftServiceCA("openshift-service-ca.crt", api.KeyToPath{
+				WithOpenShiftServiceCA("uccp-service-ca.crt", api.KeyToPath{
 					Key:  "malicious.crt",
 					Path: "service-ca.crt",
 				}).ToVolumeSource(),

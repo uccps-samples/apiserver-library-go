@@ -27,16 +27,16 @@ import (
 	"k8s.io/klog/v2"
 	kapi "k8s.io/kubernetes/pkg/apis/core"
 
-	imagev1 "github.com/openshift/api/image/v1"
-	imagepolicy "github.com/openshift/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/v1"
-	"github.com/openshift/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/validation"
-	"github.com/openshift/apiserver-library-go/pkg/admission/imagepolicy/imagereferencemutators"
-	"github.com/openshift/apiserver-library-go/pkg/admission/imagepolicy/rules"
-	imagev1client "github.com/openshift/client-go/image/clientset/versioned"
-	imagev1typedclient "github.com/openshift/client-go/image/clientset/versioned/typed/image/v1"
-	"github.com/openshift/library-go/pkg/apiserver/admission/admissionrestconfig"
-	"github.com/openshift/library-go/pkg/image/imageutil"
-	"github.com/openshift/library-go/pkg/image/reference"
+	imagev1 "github.com/uccps-samples/api/image/v1"
+	imagepolicy "github.com/uccps-samples/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/v1"
+	"github.com/uccps-samples/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/validation"
+	"github.com/uccps-samples/apiserver-library-go/pkg/admission/imagepolicy/imagereferencemutators"
+	"github.com/uccps-samples/apiserver-library-go/pkg/admission/imagepolicy/rules"
+	imagev1client "github.com/uccps-samples/client-go/image/clientset/versioned"
+	imagev1typedclient "github.com/uccps-samples/client-go/image/clientset/versioned/typed/image/v1"
+	"github.com/uccps-samples/library-go/pkg/apiserver/admission/admissionrestconfig"
+	"github.com/uccps-samples/library-go/pkg/image/imageutil"
+	"github.com/uccps-samples/library-go/pkg/image/reference"
 )
 
 func Register(plugins *admission.Plugins) {
@@ -152,7 +152,7 @@ func (a *ImagePolicyPlugin) SetExternalKubeInformerFactory(kubeInformers informe
 // Validate ensures that all required interfaces have been provided, or returns an error.
 func (a *ImagePolicyPlugin) ValidateInitialization() error {
 	if a.Client == nil {
-		return fmt.Errorf("%s needs an Openshift client", imagepolicy.PluginName)
+		return fmt.Errorf("%s needs an Uccp client", imagepolicy.PluginName)
 	}
 	if a.NsLister == nil {
 		return fmt.Errorf("%s needs a namespace lister", imagepolicy.PluginName)
@@ -447,7 +447,7 @@ func isImageStreamTagNotFound(err error) bool {
 	if details == nil {
 		return false
 	}
-	return details.Kind == "imagestreamtags" && details.Group == "image.openshift.io"
+	return details.Kind == "imagestreamtags" && details.Group == "image.uccp.io"
 }
 
 // resolutionConfig translates an ImagePolicyConfig into imageResolutionPolicy
@@ -487,7 +487,7 @@ var skipImageRewriteOnUpdate = map[metav1.GroupResource]struct{}{
 	// Job template specs are immutable, they cannot be updated.
 	{Group: "batch", Resource: "jobs"}: {},
 	// Build specs are immutable, they cannot be updated.
-	{Group: "build.openshift.io", Resource: "builds"}: {},
+	{Group: "build.uccp.io", Resource: "builds"}: {},
 }
 
 // RewriteImagePullSpec applies to implicit rewrite attributes and local resources as well as if the policy requires it.

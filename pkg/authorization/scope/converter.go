@@ -13,7 +13,7 @@ import (
 	rbacv1helpers "k8s.io/kubernetes/pkg/apis/rbac/v1"
 	authorizerrbac "k8s.io/kubernetes/plugin/pkg/auth/authorizer/rbac"
 
-	scopemetadata "github.com/openshift/library-go/pkg/authorization/scopemetadata"
+	scopemetadata "github.com/uccps-samples/library-go/pkg/authorization/scopemetadata"
 )
 
 const (
@@ -22,12 +22,12 @@ const (
 	legacyGroupName                 = ""
 	coreGroupName                   = ""
 	kubeAuthorizationGroupName      = "authorization.k8s.io"
-	openshiftAuthorizationGroupName = "authorization.openshift.io"
-	imageGroupName                  = "image.openshift.io"
-	networkGroupName                = "network.openshift.io"
-	oauthGroupName                  = "oauth.openshift.io"
-	projectGroupName                = "project.openshift.io"
-	userGroupName                   = "user.openshift.io"
+	openshiftAuthorizationGroupName = "authorization.uccp.io"
+	imageGroupName                  = "image.uccp.io"
+	networkGroupName                = "network.uccp.io"
+	oauthGroupName                  = "oauth.uccp.io"
+	projectGroupName                = "project.uccp.io"
+	userGroupName                   = "user.uccp.io"
 )
 
 // scopeDiscoveryRule is a rule that allows a client to discover the API resources available on this server

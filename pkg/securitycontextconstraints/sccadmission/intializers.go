@@ -3,7 +3,7 @@ package sccadmission
 import (
 	"k8s.io/apiserver/pkg/admission"
 
-	securityv1informer "github.com/openshift/client-go/security/informers/externalversions/security/v1"
+	securityv1informer "github.com/uccps-samples/client-go/security/informers/externalversions/security/v1"
 )
 
 func NewInitializer(sccInformer securityv1informer.SecurityContextConstraintsInformer) admission.PluginInitializer {

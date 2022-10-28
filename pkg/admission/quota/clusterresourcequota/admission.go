@@ -24,15 +24,15 @@ import (
 	"k8s.io/klog/v2"
 	"k8s.io/kubernetes/pkg/quota/v1/install"
 
-	quotatypedclient "github.com/openshift/client-go/quota/clientset/versioned/typed/quota/v1"
-	quotainformer "github.com/openshift/client-go/quota/informers/externalversions/quota/v1"
-	quotalister "github.com/openshift/client-go/quota/listers/quota/v1"
-	"github.com/openshift/library-go/pkg/apiserver/admission/admissionrestconfig"
-	"github.com/openshift/library-go/pkg/quota/clusterquotamapping"
+	quotatypedclient "github.com/uccps-samples/client-go/quota/clientset/versioned/typed/quota/v1"
+	quotainformer "github.com/uccps-samples/client-go/quota/informers/externalversions/quota/v1"
+	quotalister "github.com/uccps-samples/client-go/quota/listers/quota/v1"
+	"github.com/uccps-samples/library-go/pkg/apiserver/admission/admissionrestconfig"
+	"github.com/uccps-samples/library-go/pkg/quota/clusterquotamapping"
 )
 
 func Register(plugins *admission.Plugins) {
-	plugins.Register("quota.openshift.io/ClusterResourceQuota",
+	plugins.Register("quota.uccp.io/ClusterResourceQuota",
 		func(config io.Reader) (admission.Interface, error) {
 			return NewClusterResourceQuota()
 		})
@@ -225,10 +225,10 @@ var accessReviewResources = map[schema.GroupResource]bool{
 	{Group: "", Resource: "localresourceaccessreviews"}:                           true,
 	{Group: "", Resource: "selfsubjectrulesreviews"}:                              true,
 	{Group: "", Resource: "subjectrulesreviews"}:                                  true,
-	{Group: "authorization.openshift.io", Resource: "subjectaccessreviews"}:       true,
-	{Group: "authorization.openshift.io", Resource: "localsubjectaccessreviews"}:  true,
-	{Group: "authorization.openshift.io", Resource: "resourceaccessreviews"}:      true,
-	{Group: "authorization.openshift.io", Resource: "localresourceaccessreviews"}: true,
-	{Group: "authorization.openshift.io", Resource: "selfsubjectrulesreviews"}:    true,
-	{Group: "authorization.openshift.io", Resource: "subjectrulesreviews"}:        true,
+	{Group: "authorization.uccp.io", Resource: "subjectaccessreviews"}:       true,
+	{Group: "authorization.uccp.io", Resource: "localsubjectaccessreviews"}:  true,
+	{Group: "authorization.uccp.io", Resource: "resourceaccessreviews"}:      true,
+	{Group: "authorization.uccp.io", Resource: "localresourceaccessreviews"}: true,
+	{Group: "authorization.uccp.io", Resource: "selfsubjectrulesreviews"}:    true,
+	{Group: "authorization.uccp.io", Resource: "subjectrulesreviews"}:        true,
 }

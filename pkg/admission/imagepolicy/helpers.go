@@ -1,7 +1,7 @@
 package imagepolicy
 
 import (
-	imagepolicyapiv1 "github.com/openshift/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/v1"
+	imagepolicyapiv1 "github.com/uccps-samples/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/v1"
 )
 
 // RequestsResolution returns true if you should attempt to resolve image pull specs

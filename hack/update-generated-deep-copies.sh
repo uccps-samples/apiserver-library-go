@@ -13,7 +13,7 @@ function codegen::join() { local IFS="$1"; shift; echo "$*"; }
 
 # enumerate group versions
 ALL_FQ_APIS=(
-    github.com/openshift/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/v1
+    github.com/uccps-samples/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/v1
 )
 
 echo "Generating deepcopy funcs"

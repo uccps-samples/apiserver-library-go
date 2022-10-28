@@ -3,14 +3,14 @@ package rules
 import (
 	"testing"
 
-	"github.com/openshift/api/image/docker10"
+	"github.com/uccps-samples/api/image/docker10"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/sets"
 
-	imagev1 "github.com/openshift/api/image/v1"
-	imagepolicy "github.com/openshift/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/v1"
-	"github.com/openshift/library-go/pkg/image/reference"
+	imagev1 "github.com/uccps-samples/api/image/v1"
+	imagepolicy "github.com/uccps-samples/apiserver-library-go/pkg/admission/imagepolicy/apis/imagepolicy/v1"
+	"github.com/uccps-samples/library-go/pkg/image/reference"
 )
 
 func imageref(name string) reference.DockerImageReference {

@@ -14,11 +14,11 @@ import (
 	coreapi "k8s.io/kubernetes/pkg/apis/core"
 	coreapiv1conversions "k8s.io/kubernetes/pkg/apis/core/v1"
 
-	securityv1informers "github.com/openshift/client-go/security/informers/externalversions/security/v1"
+	securityv1informers "github.com/uccps-samples/client-go/security/informers/externalversions/security/v1"
 )
 
 func RegisterSCCExecRestrictions(plugins *admission.Plugins) {
-	plugins.Register("security.openshift.io/SCCExecRestrictions",
+	plugins.Register("security.uccp.io/SCCExecRestrictions",
 		func(config io.Reader) (admission.Interface, error) {
 			execAdmitter := NewSCCExecRestrictions()
 			return execAdmitter, nil
@@ -69,7 +69,7 @@ func (d *sccExecRestrictions) Validate(ctx context.Context, a admission.Attribut
 	// we're allowed to use the SA the pod is using.  Otherwise, user-A creates pod and user-B (who can't use the SA) can exec into it.
 	createAttributes := admission.NewAttributesRecord(internalPod, nil, coreapi.Kind("Pod").WithVersion(""), a.GetNamespace(), a.GetName(), a.GetResource(), "", admission.Create, nil, false, a.GetUserInfo())
 	// call SCC.Admit instead of SCC.Validate because we accept that a different SCC is chosen. SCC.Validate would require
-	// that the chosen SCC (stored in the "openshift.io/scc" annotation) does not change.
+	// that the chosen SCC (stored in the "uccp.io/scc" annotation) does not change.
 	if err := d.constraintAdmission.Admit(ctx, createAttributes, o); err != nil {
 		return admission.NewForbidden(a, fmt.Errorf("%s operation is not allowed because the pod's security context exceeds your permissions: %v", a.GetSubresource(), err))
 	}

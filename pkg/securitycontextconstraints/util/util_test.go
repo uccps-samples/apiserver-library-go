@@ -6,7 +6,7 @@ import (
 
 	api "k8s.io/kubernetes/pkg/apis/core"
 
-	securityv1 "github.com/openshift/api/security/v1"
+	securityv1 "github.com/uccps-samples/api/security/v1"
 )
 
 // TestVolumeSourceFSTypeDrift ensures that for every known type of volume source (by the fields on

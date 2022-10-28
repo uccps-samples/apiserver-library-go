@@ -15,7 +15,7 @@ import (
 	"k8s.io/client-go/tools/cache"
 	coreapi "k8s.io/kubernetes/pkg/apis/core"
 
-	securityv1listers "github.com/openshift/client-go/security/listers/security/v1"
+	securityv1listers "github.com/uccps-samples/client-go/security/listers/security/v1"
 )
 
 // scc exec is a pass through to *constraint, so we only need to test that

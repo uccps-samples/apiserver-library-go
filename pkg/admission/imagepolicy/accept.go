@@ -12,9 +12,9 @@ import (
 	"k8s.io/apiserver/pkg/admission"
 	kapi "k8s.io/kubernetes/pkg/apis/core"
 
-	"github.com/openshift/apiserver-library-go/pkg/admission/imagepolicy/imagereferencemutators"
-	"github.com/openshift/apiserver-library-go/pkg/admission/imagepolicy/rules"
-	"github.com/openshift/library-go/pkg/image/reference"
+	"github.com/uccps-samples/apiserver-library-go/pkg/admission/imagepolicy/imagereferencemutators"
+	"github.com/uccps-samples/apiserver-library-go/pkg/admission/imagepolicy/rules"
+	"github.com/uccps-samples/library-go/pkg/image/reference"
 )
 
 var errRejectByPolicy = fmt.Errorf("this image is prohibited by policy")

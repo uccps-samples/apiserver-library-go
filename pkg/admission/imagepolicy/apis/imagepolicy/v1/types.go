@@ -6,16 +6,16 @@ import (
 )
 
 const (
-	PluginName = "image.openshift.io/ImagePolicy"
+	PluginName = "image.uccp.io/ImagePolicy"
 
 	// IgnorePolicyRulesAnnotation is a comma delimited list of rule names to omit from consideration
 	// in a given namespace. Loaded from the namespace.
-	IgnorePolicyRulesAnnotation = "alpha.image.policy.openshift.io/ignore-rules"
+	IgnorePolicyRulesAnnotation = "alpha.image.policy.uccp.io/ignore-rules"
 	// ResolveNamesAnnotation when placed on an object template or object requests that all relevant
 	// image names be resolved by taking the name and tag and attempting to resolve a local image stream.
 	// This overrides the imageLookupPolicy on the image stream. If the object is not namespaced the
 	// annotation is ignored. The only valid value is '*'.
-	ResolveNamesAnnotation = "alpha.image.policy.openshift.io/resolve-names"
+	ResolveNamesAnnotation = "alpha.image.policy.uccp.io/resolve-names"
 )
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -88,7 +88,7 @@ type ImageCondition struct {
 	// Name is the name of this policy rule for reference. It must be unique across all rules.
 	Name string `json:"name"`
 	// IgnoreNamespaceOverride prevents this condition from being overridden when the
-	// `alpha.image.policy.openshift.io/ignore-rules` is set on a namespace and contains this rule name.
+	// `alpha.image.policy.uccp.io/ignore-rules` is set on a namespace and contains this rule name.
 	IgnoreNamespaceOverride bool `json:"ignoreNamespaceOverride"`
 
 	// OnResources determines which resources this applies to. Defaults to 'pods' for ImageExecutionPolicyRules.

@@ -19,10 +19,10 @@ import (
 	"k8s.io/client-go/tools/cache"
 	coreapi "k8s.io/kubernetes/pkg/apis/core"
 
-	securityv1 "github.com/openshift/api/security/v1"
-	"github.com/openshift/apiserver-library-go/pkg/securitycontextconstraints/sccmatching"
-	sccsort "github.com/openshift/apiserver-library-go/pkg/securitycontextconstraints/util/sort"
-	securityv1listers "github.com/openshift/client-go/security/listers/security/v1"
+	securityv1 "github.com/uccps-samples/api/security/v1"
+	"github.com/uccps-samples/apiserver-library-go/pkg/securitycontextconstraints/sccmatching"
+	sccsort "github.com/uccps-samples/apiserver-library-go/pkg/securitycontextconstraints/util/sort"
+	securityv1listers "github.com/uccps-samples/client-go/security/listers/security/v1"
 )
 
 // createSAForTest Build and Initializes a ServiceAccount for tests
@@ -580,7 +580,7 @@ func TestCreateProvidersFromConstraints(t *testing.T) {
 				}
 			},
 			namespace:   namespaceNoUID,
-			expectedErr: "unable to find annotation openshift.io/sa.scc.uid-range",
+			expectedErr: "unable to find annotation uccp.io/sa.scc.uid-range",
 		},
 		"pre-allocated no mcs annotation": {
 			scc: func() *securityv1.SecurityContextConstraints {
@@ -603,7 +603,7 @@ func TestCreateProvidersFromConstraints(t *testing.T) {
 				}
 			},
 			namespace:   namespaceNoMCS,
-			expectedErr: "unable to find annotation openshift.io/sa.scc.mcs",
+			expectedErr: "unable to find annotation uccp.io/sa.scc.mcs",
 		},
 		"pre-allocated group falls back to UID annotation": {
 			scc: func() *securityv1.SecurityContextConstraints {
@@ -1372,7 +1372,7 @@ func (s *sccTestAuthorizer) Authorize(ctx context.Context, a authorizer.Attribut
 
 func isValidSCCAttributes(a authorizer.Attributes) bool {
 	return a.GetVerb() == "use" &&
-		a.GetAPIGroup() == "security.openshift.io" &&
+		a.GetAPIGroup() == "security.uccp.io" &&
 		a.GetResource() == "securitycontextconstraints" &&
 		a.IsResourceRequest()
 }

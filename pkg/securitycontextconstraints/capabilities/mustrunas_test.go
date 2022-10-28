@@ -7,7 +7,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	api "k8s.io/kubernetes/pkg/apis/core"
 
-	securityv1 "github.com/openshift/api/security/v1"
+	securityv1 "github.com/uccps-samples/api/security/v1"
 )
 
 func TestGenerateAdds(t *testing.T) {

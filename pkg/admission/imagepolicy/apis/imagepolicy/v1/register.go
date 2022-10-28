@@ -7,7 +7,7 @@ import (
 
 func (obj *ImagePolicyConfig) GetObjectKind() schema.ObjectKind { return &obj.TypeMeta }
 
-var GroupVersion = schema.GroupVersion{Group: "image.openshift.io", Version: "v1"}
+var GroupVersion = schema.GroupVersion{Group: "image.uccp.io", Version: "v1"}
 
 var (
 	schemeBuilder = runtime.NewSchemeBuilder(

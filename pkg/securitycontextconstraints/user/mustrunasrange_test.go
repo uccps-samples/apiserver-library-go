@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	securityv1 "github.com/openshift/api/security/v1"
+	securityv1 "github.com/uccps-samples/api/security/v1"
 )
 
 func TestMustRunAsRangeOptions(t *testing.T) {

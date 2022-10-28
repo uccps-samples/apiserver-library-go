@@ -3,7 +3,7 @@ package imagepolicy
 import (
 	"k8s.io/apiserver/pkg/admission"
 
-	"github.com/openshift/apiserver-library-go/pkg/admission/imagepolicy/imagereferencemutators"
+	"github.com/uccps-samples/apiserver-library-go/pkg/admission/imagepolicy/imagereferencemutators"
 )
 
 func NewInitializer(imageMutators imagereferencemutators.ImageMutators, internalImageRegistry string) admission.PluginInitializer {

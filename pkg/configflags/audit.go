@@ -8,10 +8,10 @@ import (
 
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 
-	configv1 "github.com/openshift/api/config/v1"
+	configv1 "github.com/uccps-samples/api/config/v1"
 )
 
-const defaultAuditPolicyFilePath = "openshift.local.audit/policy.yaml"
+const defaultAuditPolicyFilePath = "uccp.local.audit/policy.yaml"
 
 func AuditFlags(c *configv1.AuditConfig, args map[string][]string) map[string][]string {
 	if !c.Enabled {

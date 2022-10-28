@@ -4,8 +4,8 @@ import (
 	"k8s.io/apiserver/pkg/admission"
 	quota "k8s.io/apiserver/pkg/quota/v1"
 
-	quotainformer "github.com/openshift/client-go/quota/informers/externalversions/quota/v1"
-	"github.com/openshift/library-go/pkg/quota/clusterquotamapping"
+	quotainformer "github.com/uccps-samples/client-go/quota/informers/externalversions/quota/v1"
+	"github.com/uccps-samples/library-go/pkg/quota/clusterquotamapping"
 )
 
 func NewInitializer(
